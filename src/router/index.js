@@ -1,27 +1,43 @@
+/* eslint-disable */
 import Vue from 'vue'
 import Router from 'vue-router'
+import firebase from "firebase/app";
+import auth from "firebase/auth";
 import Home from '@/components/Map'
-import Chat from '@/components/Chat'
+import Signup from '@/components/Signup'
+import Login from '@/components/Login'
 
 Vue.use(Router)
 
-export default new Router({
+const router = new Router({
     mode: 'history',
     routes: [
         {
             path: '/',
             name: 'Home',
-            component: Home
+            component: Home,
+            meta: {
+                requiresAuth: true
+            }
         },
         {
-            path: '/chat',
-            name: 'Chat',
-            component: Chat,
-            props: true,
-            beforeEnter: (to, from, next) => {
-                if (to.params.name) return next();
-                next({ name: 'Home' });
-            }
+            path: '/signup',
+            name: 'Signup',
+            component: Signup
+        },
+        {
+            path: '/login',
+            name: 'Login',
+            component: Login
         }
     ]
 })
+
+router.beforeEach((to, from, next) => {
+    if (!to.matched.some(rec => rec.meta.requiresAuth)) return next();
+    let user = firebase.auth().currentUser;
+    if (user) return next();
+    next({ name: 'Login' });
+});
+
+export default router;
