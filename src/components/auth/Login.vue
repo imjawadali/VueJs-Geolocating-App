@@ -30,11 +30,20 @@ export default {
     return {
       email: null,
       password: null,
-      feedback: null,
+      feedback: null
     };
   },
   methods: {
-    login() {}
+    login() {
+      if (!this.email || !this.password)
+        return (this.feedback = "You must fill both fields");
+      this.feedback = null;
+      firebase
+        .auth()
+        .signInWithEmailAndPassword(this.email, this.password)
+        .then(() => this.$router.push({ name: "Home" }))
+        .catch(err => (this.feedback = err.message));
+    }
   }
 };
 </script>

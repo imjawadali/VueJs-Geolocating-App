@@ -42,10 +42,8 @@ export default {
   },
   methods: {
     signup() {
-      if (!this.email) return (this.feedback = "You must enter a valid email.");
-      if (!this.password)
-        return (this.feedback = "You must enter a valid password.");
-      if (!this.alias) return (this.feedback = "You must enter an alias.");
+      if (!this.email || !this.password || !this.alias)
+        return (this.feedback = "You must fill all fields.");
       this.feedback = null;
       this.slug = slugify(this.alias, {
         replacement: "-",
@@ -61,19 +59,14 @@ export default {
             .auth()
             .createUserWithEmailAndPassword(this.email, this.password)
             .then(cred => {
-              ref
-                .set({
-                  alias: this.alias,
-                  geolocation: null,
-                  user_id: cred.user.uid
-                })
-                .then(() => this.$router.push({ name: "Home" }))
-                .catch(err => console.log(err));
+              ref.set({
+                alias: this.alias,
+                geolocation: null,
+                user_id: cred.user.uid
+              });
             })
-            .catch(err => {
-              console.log(err);
-              return (this.feedback = err.message);
-            });
+            .then(() => this.$router.push({ name: "Home" }))
+            .catch(err => (this.feedback = err.message));
         })
         .catch(err => console.log(err));
     }
