@@ -2,7 +2,7 @@
   <div class="navbar">
     <nav class="deep-purple darken-1">
       <div class="container">
-        <router-link class="brand-logo left" :to="{ name: 'Home' }">GeoNinjas</router-link>
+        <router-link class="brand-logo left" :to="{ name: 'Home' }">GeoNinjas!</router-link>
         <ul class="right">
           <li v-if="!user">
             <router-link :to="{ name: 'Signup' }">Signup</router-link>

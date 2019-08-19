@@ -4,6 +4,7 @@ import Router from 'vue-router'
 import firebase from "firebase/app";
 import auth from "firebase/auth";
 import Home from '@/components/Map'
+import ViewProfile from '@/components/ViewProfile'
 import Signup from '@/components/auth/Signup'
 import Login from '@/components/auth/Login'
 
@@ -16,6 +17,14 @@ const router = new Router({
             path: '/',
             name: 'Home',
             component: Home,
+            meta: {
+                requiresAuth: true
+            }
+        },
+        {
+            path: '/viewProfile/:id',
+            name: 'ViewProfile',
+            component: ViewProfile,
             meta: {
                 requiresAuth: true
             }

@@ -30,18 +30,22 @@ export default {
 
       db.collection("users")
         .get()
-        .then(users => users.docs.forEach(doc => {
-          let data = doc.data()
-          if (!data.geolocation) return null;
-          let marker = new google.maps.Marker({
-            position: {
-              lat: data.geolocation.lat,
-              lng: data.geolocation.lng
-            },
-            map
-          });
-          marker.addListener('click', () => {});
-        }))
+        .then(users =>
+          users.docs.forEach(doc => {
+            let data = doc.data();
+            if (!data.geolocation) return null;
+            let marker = new google.maps.Marker({
+              position: {
+                lat: data.geolocation.lat,
+                lng: data.geolocation.lng
+              },
+              map
+            });
+            marker.addListener("click", () =>
+              this.$router.push({ name: "ViewProfile", params: { id: doc.id } })
+            );
+          })
+        )
         .catch(err => console.log(err));
     }
   },
