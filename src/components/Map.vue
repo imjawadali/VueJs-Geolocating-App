@@ -1,6 +1,7 @@
 <template>
   <div class="map">
     <div class="google-map" id="map"></div>
+    <router-view />
   </div>
 </template>
 

@@ -19,15 +19,14 @@ const router = new Router({
             component: Home,
             meta: {
                 requiresAuth: true
-            }
-        },
-        {
-            path: '/viewProfile/:id',
-            name: 'ViewProfile',
-            component: ViewProfile,
-            meta: {
-                requiresAuth: true
-            }
+            },
+            children: [
+                {
+                    path: 'viewProfile/:id',
+                    name: 'ViewProfile',
+                    component: ViewProfile
+                }
+            ]
         },
         {
             path: '/signup',
